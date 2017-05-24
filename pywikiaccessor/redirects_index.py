@@ -12,9 +12,9 @@ class RedirectPageFabric:
 class RedirectsIndex (wiki_file_index.WikiFileIndex): 
     def __init__(self, wikiAccessor):
         super(RedirectsIndex, self).__init__(wikiAccessor)
-        self.data = self.dictionaries["Redirects"]
+        self.data = self.dictionaries["redirects"]
     def getDictionaryFiles(self): 
-        return ['Redirects']
+        return ['redirects']
     def getRedirectsIds(self):
         return list(self.data.keys());
     def getRedirectsCount(self):
@@ -44,7 +44,7 @@ class RedirectsIndexBuilder (wiki_iterator.WikiIterator):
         return
 
     def postProcess(self):
-        with open(self.accessor.directory + 'Redirects.pcl', 'wb') as f:
+        with open(self.getFullFileName('redirects.pcl'), 'wb') as f:
             pickle.dump(self.data, f, pickle.HIGHEST_PROTOCOL)
 
     def preProcess(self):
