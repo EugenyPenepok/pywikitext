@@ -1,0 +1,12 @@
+from pywikiaccessor.wiki_base_index import WikiBaseIndexBuilder
+from pywikiaccessor.wiki_accessor import WikiAccessor
+from pywikiaccessor.title_index import TitleIndexBuilder
+
+#base = WikiBaseIndexBuilder("C:\\[Study]\\Diploma\\ruwiki\\","articles.xml")
+#base.build()
+
+directory = "C:\\[Study]\\Diploma\\ruwiki\\"
+accessor =  WikiAccessor(directory)
+titleIndexBuilder = TitleIndexBuilder(accessor)
+titleIndexBuilder.build()
+###

@@ -13,9 +13,9 @@ class myWikiDBdriver:
             charset='utf8',
              db=self.config.database)
     def containsTable(self, table):  
-        True or False  
-        
-class postgreWikiDBdriver:
+        True or False
+
+## class postgreWikiDBdriver:
     
 class WikiStore(metaclass=ABCMeta):
     def __init__(self, wikiAccessor):
