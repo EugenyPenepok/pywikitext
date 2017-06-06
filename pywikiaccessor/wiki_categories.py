@@ -31,16 +31,18 @@ class CategoryIndex (wiki_file_index.WikiFileIndex):
         res = set()
         subCats = self.dictionaries['cat_IdToChildrenIndex'][catId]
         res.update(subCats)
-        for cat in subCats:
-            res.update(self.getSubCatAsSet(cat))
+        # Добавление подкатегорий подкатегорий :)
+        # for cat in subCats:
+        #     res.update(self.getSubCatAsSet(cat))
         return res
 
     def getAllParentsAsSet(self,catId):
         res = set()
         parCats = self.dictionaries['cat_IdToParentIndex'][catId]
         res.update(parCats)
-        for cat in parCats:
-            res.update(self.getAllParentsAsSet(cat))
+        # Получение дедушек и прадедушек закомментировано
+        # for cat in parCats:
+        #     res.update(self.getAllParentsAsSet(cat))
         return res
     
     def getAllPagesAsSet(self,catId):
@@ -191,16 +193,46 @@ class CategoryFromPagesBuilder (wiki_iterator.WikiIterator):
             self.toPagesDict[parentCatId].append(docId)
             self.toPageCatDict[docId].append(parentCatId)
             
-#from pywikiaccessor import wiki_accessor
-#from pywikiaccessor import title_index
-#directory = "C:\\WORK\\science\\onpositive_data\\python\\"
-#accessor =  wiki_accessor.WikiAccessor(directory)
-#titleIndex = accessor.getIndex(title_index.TitleIndex)
-#docId = titleIndex.getIdByTitle('Ван Боксхорн, Маркус')
-#bld = CategoryIndexBuilder(accessor)
-#bld.preProcess()
-#bld.processDocument(docId)
-#print(bld.toPagesDict)
-#print(bld.toTitleDict)
-#bld.build()
+# from pywikiaccessor import wiki_accessor
+# from pywikiaccessor import title_index
+# from pywikiaccessor.wiki_plain_text_index import WikiPlainTextIndex
+#
+# directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
+# accessor = wiki_accessor.WikiAccessor(directory)
+# titleIndex = title_index.TitleIndex(accessor)
+#
+# bld = CategoryIndex(accessor)
+# baseIndex = wiki_base_index.WikiBaseIndex(accessor)
+# plainId = WikiPlainTextIndex(accessor)
+#
+# # Работа с категориями
+# catTitle = 'Арифметика'
+# catId = bld.getIdByTitle(catTitle)
+# subCats = bld.getSubCatAsSet(catId)
+# print('Подкатегории', catTitle, ':')
+# for cat in subCats:
+#     print(bld.getTitleById(cat))
+# print('-------------------------------------')
+# print('Надкатегории', catTitle, ':')
+# parentCats = bld.getAllParentsAsSet(catId)
+# for cat in parentCats:
+#     print(bld.getTitleById(cat))
+# print('-------------------------------------')
+# print('Статьи', catTitle, ':')
+# catPages = bld.getDirectPages(catId)
+# print(len(catPages))
+# for page in catPages:
+#     print(titleIndex.getTitleById(page))
+#
+# # Получение категорий для статьи
+# docId = titleIndex.getIdByTitle('Чебурек')
+# catId = bld.getPageDirectCategories(docId)
+# print('Категории:')
+# for cat in catId:
+#     print(bld.getTitleById(cat))
+
+# bld.processDocument(docId)
+# print(bld.toPagesDict)
+# print(bld.toTitleDict)
+# bld.build()
 

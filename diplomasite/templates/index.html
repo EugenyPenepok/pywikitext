@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block rows %}
+<div class="container theme-showcase" role="main">
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Название</h1>
+        <p>Описательное описание</p>
+      </div>
+	
+	<!-- Панель  -->
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h2 class="panel-title">Параметры корпуса</h2>
+		</div>
+		
+		<div class="panel-body">
+			<!-- Алерты панели -->
+			<div class="alert alert-success" role="alert">
+				  <strong>Успех!</strong> Файл DocumentTypeConfig создан.
+			</div>
+		
+			<!-- Категории -->
+			<div class="container-fluid">
+				<div class="page-header">
+					<h3>Выбор категорий</h3>
+				</div>
+				
+						
+				<!-- Ошибки и предупреждения -->
+				<div class="alert alert-warning" role="alert">
+					<strong>Предупреждение!</strong> Не выбрана ни одна категория.
+				</div>
+				<div class="alert alert-danger" role="alert">
+					<strong>Ошибка!</strong> Текст ошибки.
+				</div>
+			
+				<div class="col-md-6">
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Категория 1</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Категория 2</label>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Категория 3</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Категория 4</label>
+					</div>
+				</div>
+			</div>
+		
+			<!-- Статьи -->
+			<div class="container-fluid">
+				<div class="page-header">
+					<h3>Выбор статей</h3>
+				</div>
+					
+				<!-- Ошибки и предупреждения -->
+				<div class="alert alert-warning" role="alert">
+					<strong>Предупреждение!</strong> Не выбрана ни одна категория.
+				</div>
+				<div class="alert alert-danger" role="alert">
+					<strong>Ошибка!</strong> Текст ошибки.
+				</div>
+				
+				<label for="doc-title">Название содержит:</label>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<input type="text" class="form-control" id="doc-title">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Шаблоны -->
+			<div class="container-fluid">
+				<div class="page-header">
+					<h3>Выбор шаблонов</h3>
+				</div>
+					
+				<!-- Ошибки и предупреждения -->
+				<div class="alert alert-warning" role="alert">
+					<strong>Предупреждение!</strong> Не указан ни один шаблон.
+				</div>
+				<div class="alert alert-danger" role="alert">
+					<strong>Ошибка!</strong> Текст ошибки.
+				</div>
+				
+				<button type="button" class="btn btn-success">Добавить</button><br><br>
+				
+				<label for="tmp1">Шаблон 1:</label>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<input type="text" class="form-control" id="tmp1">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
+					</div>
+				</div>
+				
+				<label for="tmp2">Шаблон 2:</label>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<input type="text" class="form-control" id="tmp2">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Заголовки -->
+			<div class="container-fluid">
+				<div class="page-header">
+					<h3>Выбор заголовков статей</h3>
+				</div>
+				
+						
+				<!-- Ошибки и предупреждения -->
+				<div class="alert alert-warning" role="alert">
+					<strong>Предупреждение!</strong> Не указан ни один заголовок.
+				</div>
+				<div class="alert alert-danger" role="alert">
+					<strong>Ошибка!</strong> Текст ошибки.
+				</div>				
+				<button type="button" class="btn btn-success">Добавить</button><br><br>
+				
+				<label for="sub1">Заголовок 1:</label>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<input type="text" class="form-control" id="sub1">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
+					</div>
+				</div>
+				
+				<label for="sub2">Заголовок 2:</label>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<input type="text" class="form-control" id="sub2">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
+					</div>
+				</div>
+				
+				<label for="sub3">Заголовок 3:</label>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<input type="text" class="form-control" id="sub3">
+						</div>
+					</div>
+					<div class="col-md-2">
+						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Кнопки -->
+			<div class="container-fluid">
+				<div class="row pull-right">
+					<button type="button" class="btn btn-lg btn-default">Очистить</button>
+					<button type="button" class="btn btn-lg btn-primary">Принять</button>
+				</div>
+			</div>
+		</div>	<!-- end of panel body -->
+	</div> <!-- end of panel -->
+</div>
+{% endblock %}

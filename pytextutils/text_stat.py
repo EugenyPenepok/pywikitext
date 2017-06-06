@@ -275,31 +275,32 @@ def normalize(data):
         normData = []
         for d in data:
             normData.append((d)/(max_value))
-    return normData 
-#directory = "C:/WORK/science/onpositive_data/python/"
-#tc = TextCleaner(directory)
-#tc1 = TextCleaner(directory)
-#print(tc1)
-#text = '''
-#рис.1 и т.д.
-#и пр.
-#'''
-#tc = TextCleaner(directory)
-#print(tc.clean(text))
-#file = "sule1.txt"
-#textStat = TextStat(directory+file)
-#print(textStat.text)
-#from pytextutils.grammar_base import HeaderMatcher 
-#ts = TokenSplitter()
-#ts.split(textStat.text)
-#tokens = ts.getTokenArray()
-#hm = HeaderMatcher()
-#hm.combineTokens(tokens)
+    return normData
 
-#for token in tokens:
-#    if token.tokenType == TYPE_COMPLEX_TOKEN:
-#        print(token.token)
+directory = "C:/WORK/science/onpositive_data/python/"
+tc = TextCleaner(directory)
+tc1 = TextCleaner(directory)
+print(tc1)
+text = '''
+рис.1 и т.д.
+и пр.
+'''
+tc = TextCleaner(directory)
+print(tc.clean(text))
+file = "sule1.txt"
+textStat = TextStat(directory+file)
+print(textStat.text)
+from pytextutils.grammar_formal import HeaderMatcher
+ts = TokenSplitter()
+ts.split(textStat.text)
+tokens = ts.getTokenArray()
+hm = HeaderMatcher()
+hm.combineTokens(tokens)
 
-#for file in ["texts/ladno.txt","texts/sule1.txt","texts/sule2.txt","texts/sule3.txt"]:
+for token in tokens:
+   if token.tokenType == 4: # complex token
+       print(token.token)
+
+# for file in ["texts/ladno.txt","texts/sule1.txt","texts/sule2.txt","texts/sule3.txt"]:
 #    textStat = TextStat(directory,file=file)
 #    textStat.buildPOSSurface()
