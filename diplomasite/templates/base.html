@@ -23,24 +23,21 @@
     <!-- Custom styles for this template -->
     <link href="{% static "css/theme.css" %}" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="{% static "js/ie-emulation-modes-warning.js" %}"></script>
-
   </head>
 
   <body>
 	{% include 'header.html' %}
 	{% block rows %}{% endblock %}
-	{% include 'footer.html' %}
+    {% include 'footer.html' %}
 	
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script>window.jQuery || document.write('<script src="js/vendor/jquery.min.js"><\/script>')</script>
+    {% csrf_token %}
+    <script src="{% static "js/jquery.min.js" %}"></script>
 	<script src="{% static "js/bootstrap.min.js" %}"></script>
 	<script src="{% static "js/bootstrap-treeview.min.js" %}"></script>
+    <script src="{% static "js/cat-tree.min.js" %}"></script>
 	<script src="{% static "js/docs.min.js" %}"></script>
 	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 	<script src="{% static "js/ie10-viewport-bug-workaround.js" %}"></script>

@@ -8,6 +8,59 @@
       </div>
 	
 	<!-- Панель  -->
+<div class="form-group row">
+    <button name="getCategories" class="btn btn-success" id="btn-get-categories">Получить категории</button>
+</div>
+
+<div class="row">
+        <hr>
+        <h2>Дерево категорий</h2>
+        <div class="col-sm-4">
+          <h2>Категории</h2>
+          <div class="form-group">
+            <label for="input-check-node" class="sr-only">Найти в дереве:</label>
+            <input type="input" class="form-control" id="input-check-node" placeholder="Введите имя категории ..." value="">
+          </div>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" class="checkbox" id="chk-check-silent" value="false">
+              Не отображать события
+            </label>
+          </div>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-success check-node" id="btn-check-node">Выделить</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-danger check-node" id="btn-uncheck-node">Снять отметку</button>
+          </div>
+          <div class="form-group">
+            <button type="button" class="btn btn-primary check-node" id="btn-toggle-checked">Переключить</button>
+          </div>
+          <hr>
+          <div class="form-group row">
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-success" id="btn-check-all">Выделить все</button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-danger" id="btn-uncheck-all">Отменить выделение</button>
+        </div>
+        <div class="col-sm-4">
+          <h2>Дерево</h2>
+          <div id="treeview1" class=""></div>
+        </div>
+        <div class="col-sm-4">
+          <h2>События</h2>
+          <div id="checkable-output"></div>
+        </div>
+
+</div>
+
+<div class="form-group row">
+    <button name="acceptCategories" class="btn btn-success" id="btn-accept">Принять</button>
+</div>
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<h2 class="panel-title">Параметры корпуса</h2>

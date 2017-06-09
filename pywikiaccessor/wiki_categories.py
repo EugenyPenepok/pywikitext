@@ -31,7 +31,7 @@ class CategoryIndex (wiki_file_index.WikiFileIndex):
         res = set()
         subCats = self.dictionaries['cat_IdToChildrenIndex'][catId]
         res.update(subCats)
-        # Добавление подкатегорий подкатегорий :)
+        # Добавление подкатегорий подкатегорий закомментировано
         # for cat in subCats:
         #     res.update(self.getSubCatAsSet(cat))
         return res
@@ -192,13 +192,15 @@ class CategoryFromPagesBuilder (wiki_iterator.WikiIterator):
                 self.toChildrenDict[parentCatId].append(catId)
             self.toPagesDict[parentCatId].append(docId)
             self.toPageCatDict[docId].append(parentCatId)
-            
-# from pywikiaccessor import wiki_accessor
+
+from pywikiaccessor import wiki_accessor
 # from pywikiaccessor import title_index
 # from pywikiaccessor.wiki_plain_text_index import WikiPlainTextIndex
 #
 # directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
 # accessor = wiki_accessor.WikiAccessor(directory)
+# kek = CategoryFromPagesBuilder(accessor)
+# kek.build()
 # titleIndex = title_index.TitleIndex(accessor)
 #
 # bld = CategoryIndex(accessor)
