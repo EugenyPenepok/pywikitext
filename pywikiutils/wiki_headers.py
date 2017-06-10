@@ -10,21 +10,22 @@ from pywikiaccessor.redirects_index import RedirectsIndex
 import re
 import pickle
 
+
 # Класс для выделения markdown-заголовков в тексте
 class HeadersExtractor:
-    def __init__(self,headerRenumerer):
+    def __init__(self, headerRenumerer):
         self.cleaner = WikiTokenizer()
         self.headerRenumerer = headerRenumerer
         self.headerTemplates = [
-                re.compile('\n[ \t]*======([^=]*)======[ \t\r]*\n'),
-                re.compile('\n[ \t]*=====([^=]*)=====[ \t\r]*\n'),
-                re.compile('\n[ \t]*====([^=]*)====[ \t\r]*\n'),
-                re.compile('\n[ \t]*===([^=]*)===[ \t\r]*\n'),
-                re.compile('\n[ \t]*==([^=]*)==[ \t\r]*\n'),
-                re.compile('\n[ \t]*=([^=]*)=[ \t\r]*\n'),
-            ]
-    
-    def getHeadersForDoc(self, docId, text):        
+            re.compile('\n[ \t]*======([^=]*)======[ \t\r]*\n'),
+            re.compile('\n[ \t]*=====([^=]*)=====[ \t\r]*\n'),
+            re.compile('\n[ \t]*====([^=]*)====[ \t\r]*\n'),
+            re.compile('\n[ \t]*===([^=]*)===[ \t\r]*\n'),
+            re.compile('\n[ \t]*==([^=]*)==[ \t\r]*\n'),
+            re.compile('\n[ \t]*=([^=]*)=[ \t\r]*\n'),
+        ]
+
+    def getHeadersForDoc(self, docId, text):
         text = text.lower()
         headers = []
         htype = 6
@@ -33,15 +34,19 @@ class HeadersExtractor:
                 header = self.cleaner.clean(match.group(1))
                 if any(ch in ALL_CYR_LETTERS for ch in header):
                     header_id = self.headerRenumerer(header)
-                    if header_id: 
-                        headers.append({'header':header_id,'type':htype,'position_start':match.end(),'position_match':match.start()})
+                    if header_id:
+                        headers.append({'header': header_id, 'type': htype, 'position_start': match.end(),
+                                        'position_match': match.start()})
             htype -= 1
         headers.sort(key=lambda header: header['position_match'])
         return headers
-    
-if __name__ =="__main__":
+
+
+if __name__ == "__main__":
     def simpleRenum(h):
         return 1
+
+
     he = HeadersExtractor(simpleRenum)
     text = '''
 ===Формальное определение===
@@ -68,27 +73,27 @@ if __name__ =="__main__":
     for h in he.getHeadersForDoc(1, text):
         print('----------------------------------------------------')
         print(text[h['position_match']:h['position_start']])
-    
+
 
 # Билдер файлового индекса заголовков
-class HeadersFileBuilder (WikiIterator):
-    def __init__(self, accessor, docIds = None, prefix =''):
+class HeadersFileBuilder(WikiIterator):
+    def __init__(self, accessor, docIds=None, prefix=''):
         super(HeadersFileBuilder, self).__init__(accessor, 1000, docIds, prefix)
 
-    def processSave(self,articlesCount):
+    def processSave(self, articlesCount):
         pass
-   
+
     def preProcess(self):
-        self.redirects = self.accessor.getIndex(RedirectsIndex) 
+        self.redirects = self.accessor.getIndex(RedirectsIndex)
         self.doctypeIndex = DocumentTypeIndex(self.accessor)
         self.headersExtractor = HeadersExtractor(self.getHeaderId)
- 
+
         self.clear()
         self.headersToIds = {}
         self.idsToHeaders = []
         self.headerDocuments = {}
         self.documentHeaders = {}
-    
+
     def postProcess(self):
         with open(self.getFullFileName('HeadersToIds.pcl'), 'wb') as f:
             pickle.dump(self.headersToIds, f, pickle.HIGHEST_PROTOCOL)
@@ -98,40 +103,44 @@ class HeadersFileBuilder (WikiIterator):
             pickle.dump(self.headerDocuments, f, pickle.HIGHEST_PROTOCOL)
         with open(self.getFullFileName('DocumentHeaders.pcl'), 'wb') as f:
             pickle.dump(self.documentHeaders, f, pickle.HIGHEST_PROTOCOL)
-           
+
     def clear(self):
         pass
 
-    def getHeaderId(self,header):
-        header = header.replace("ё","е")
-        header = header.replace("\\","").strip()
-        if not self.headersToIds.get(header,None):
-            self.headersToIds[header] = len(self.idsToHeaders)  
+    def getHeaderId(self, header):
+        header = header.replace("ё", "е")
+        header = header.replace("\\", "").strip()
+        if not self.headersToIds.get(header, None):
+            self.headersToIds[header] = len(self.idsToHeaders)
             self.idsToHeaders.append(header)
-        return self.headersToIds[header]    
-        
+        return self.headersToIds[header]
+
     def processDocument(self, docId):
         if self.redirects.isRedirect(docId):
             return
-        if self.doctypeIndex.isDocType(docId,'wiki_stuff'):
+        if self.doctypeIndex.isDocType(docId, 'wiki_stuff'):
             return
-        headers = self.headersExtractor.getHeadersForDoc(docId,self.wikiIndex.getTextArticleById(docId))
-        self.documentHeaders[docId] = headers 
+        headers = self.headersExtractor.getHeadersForDoc(docId, self.wikiIndex.getTextArticleById(docId))
+        self.documentHeaders[docId] = headers
         for h in headers:
-            if not self.headerDocuments.get(h['header'],None):
+            if not self.headerDocuments.get(h['header'], None):
                 self.headerDocuments[h['header']] = []
             self.headerDocuments[h['header']].append(docId)
 
+
 from pywikiaccessor.wiki_base_index import WikiBaseIndex
-# Файловый индекс заголовков             
+
+
+# Файловый индекс заголовков
 class HeadersFileIndex(WikiFileIndex):
-    def __init__(self, wikiAccessor,prefix =''):
-        super(HeadersFileIndex, self).__init__(wikiAccessor,prefix)
+    def __init__(self, wikiAccessor, prefix=''):
+        super(HeadersFileIndex, self).__init__(wikiAccessor, prefix)
         self.wikiIndex = wikiAccessor.getIndex(WikiBaseIndex)
         self.wikiTokenizer = WikiTokenizer()
 
-    def getDictionaryFiles(self): 
-        return ['HeadersToIds','IdsToHeaders','HeaderDocuments','DocumentHeaders']
+    def getDictionaryFiles(self):
+        return ['HeadersToIds', 'IdsToHeaders', 'HeaderDocuments', 'DocumentHeaders']
+
     def getStat(self, header):
         if type(header) == str:
             headerId = self.headerId(header)
@@ -139,50 +148,61 @@ class HeadersFileIndex(WikiFileIndex):
             headerId = header
         return {'id': headerId,
                 'text': self.dictionaries['IdsToHeaders'][headerId],
-                'cnt': len(self.dictionaries['HeaderDocuments'][headerId])}   
-     
+                'cnt': len(self.dictionaries['HeaderDocuments'][headerId])}
+
     def getAllStat(self):
         sortedHeaders = sorted(self.dictionaries['HeaderDocuments'],
-                               key=lambda header: (-len(self.dictionaries['HeaderDocuments'][header]),self.dictionaries['IdsToHeaders'][header]))
+                               key=lambda header: (-len(self.dictionaries['HeaderDocuments'][header]),
+                                                   self.dictionaries['IdsToHeaders'][header]))
         res = []
         for element in sortedHeaders:
-            res.append ({'id': element,'text': self.dictionaries['IdsToHeaders'][element],'cnt': len(self.dictionaries['HeaderDocuments'][element])})
+            res.append({'id': element, 'text': self.dictionaries['IdsToHeaders'][element],
+                        'cnt': len(self.dictionaries['HeaderDocuments'][element])})
         return res
-    def headerId(self,header):
-        return self.dictionaries['HeadersToIds'].get(header.strip().lower(),None)
-    def headerText(self,headerId):
+
+    def headerId(self, header):
+        return self.dictionaries['HeadersToIds'].get(header.strip().lower(), None)
+
+    def headerText(self, headerId):
         return self.dictionaries['IdsToHeaders'][int(headerId)]
-    def documentsByHeader(self,header):
-        headerId = self.dictionaries['HeadersToIds'].get(header.strip().lower(),None)
+
+    def documentsByHeader(self, header):
+        headerId = self.dictionaries['HeadersToIds'].get(header.strip().lower(), None)
         if not headerId:
             return []
-        return self.dictionaries['HeaderDocuments'].get(headerId,None)                      
-    def documentsByHeaderId(self,headerId):
-        return self.dictionaries['HeaderDocuments'].get(headerId,None)  
-    def headersByDoc(self,docId):
-        return self.dictionaries['DocumentHeaders'].get(docId,None)   
-    def getBuilder(self):
-        return HeadersFileBuilder(self.accessor,self.prefix)
-    def getName(self):
-        return "headers"            
+        return self.dictionaries['HeaderDocuments'].get(headerId, None)
 
-    def getDocSection(self,docId,headerId):
+    def documentsByHeaderId(self, headerId):
+        return self.dictionaries['HeaderDocuments'].get(headerId, None)
+
+    def headersByDoc(self, docId):
+        return self.dictionaries['DocumentHeaders'].get(docId, None)
+
+    def getBuilder(self):
+        return HeadersFileBuilder(self.accessor, self.prefix)
+
+    def getName(self):
+        return "headers"
+
+    def getDocSection(self, docId, headerId):
         text = self.wikiIndex.getTextArticleById(docId)
         headers = self.headersByDoc(docId)
         headerN = [i for i, h in enumerate(headers) if h['header'] == headerId][0]
         start = headers[headerN]["position_start"]
-        if headerN == len(headers)-1:
+        if headerN == len(headers) - 1:
             finish = len(text)
         else:
-            #finish = headers[headerN+1]["position_match"]
-            i = headerN+1
+            # finish = headers[headerN+1]["position_match"]
+            i = headerN + 1
             while i < len(headers) and headers[headerN]['type'] < headers[i]['type']:
                 i += 1
             if i == len(headers):
                 finish = len(text)
-            else:  
+            else:
                 finish = headers[i]["position_match"]
         return self.wikiTokenizer.clean(text[start:finish])
+
+
 '''
 Билдер индекса заголовков, хранящийся в базе
 
@@ -222,20 +242,22 @@ ALTER TABLE `verb_to_doc`
 MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 '''
 
-class HeadersDBBuilder (WikiIterator):
-    def __init__(self, accessor, docIds = None):
+
+class HeadersDBBuilder(WikiIterator):
+    def __init__(self, accessor, docIds=None):
         super(HeadersDBBuilder, self).__init__(accessor, 1000, docIds)
 
-    def processSave(self,articlesCount):
+    def processSave(self, articlesCount):
         pass
-   
+
     def preProcess(self):
-        self.dbConnection = pymysql.connect(host='localhost', port=3306, user='root', passwd='',charset='utf8', db='wikiparse')
+        self.dbConnection = pymysql.connect(host='localhost', port=3306, user='root', passwd='', charset='utf8',
+                                            db='wikiparse')
         self.dbCursor = self.dbConnection.cursor()
-        self.redirects = self.accessor.getIndex(RedirectsIndex) 
+        self.redirects = self.accessor.getIndex(RedirectsIndex)
         self.doctypeIndex = DocumentTypeIndex(self.accessor)
         self.headersExtractor = HeadersExtractor(self.getHeaderId)
- 
+
         self.clear()
         self.headers = {}
         self.addHeaderQuery = "INSERT INTO headers(text) VALUES (%s)"
@@ -244,48 +266,49 @@ class HeadersDBBuilder (WikiIterator):
         self.isDocAlreadySaveQuery = "SELECT count(id) as cnt FROM `header_to_doc` WHERE doc_id = %s group by doc_id"
 
         self.queryElement = "(%s, %s, %s, %s, %s)"
-        
+
         self.dbCursor.execute("SELECT * FROM headers ORDER BY id")
         for element in self.dbCursor.fetchall():
-            self.headers[element[1]] = element[0] 
-    
+            self.headers[element[1]] = element[0]
+
     def postProcess(self):
         pass
-           
+
     def clear(self):
         pass
-    
+
     # Проверяем, был ли документ обработан ранее
-    def isDocAlreadySave(self,docId):
-        self.dbCursor.execute(self.isDocAlreadySaveQuery,(docId))
+    def isDocAlreadySave(self, docId):
+        self.dbCursor.execute(self.isDocAlreadySaveQuery, (docId))
         count = self.dbCursor.fetchone()
         if not count:
             return False
         return count[0] > 0
-    
+
     # Определяет или генерирует идентификатор заголовка
-    def getHeaderId(self,header):
-        header = header.replace("ё","е")
-        header = header.replace("\\","").strip()
-        header_id = self.headers.get(header,None)
+    def getHeaderId(self, header):
+        header = header.replace("ё", "е")
+        header = header.replace("\\", "").strip()
+        header_id = self.headers.get(header, None)
         if not header_id:
-            self.dbCursor.execute(self.addHeaderQuery,(header))
+            self.dbCursor.execute(self.addHeaderQuery, (header))
             self.dbConnection.commit()
-            self.dbCursor.execute(self.getHeaderIdQuery,(header))
+            self.dbCursor.execute(self.getHeaderIdQuery, (header))
             header_id = self.dbCursor.fetchone()
             if not header_id:
                 print(header)
             else:
                 self.headers[header] = header_id[0]
-        return header_id    
-    
-    # Обработка документа    
+        return header_id
+
+        # Обработка документа
+
     def processDocument(self, docId):
-        #страницы-редиректы не обрабатываем
+        # страницы-редиректы не обрабатываем
         if self.redirects.isRedirect(docId):
             return
         # служебные страницы не обрабатываем
-        if self.doctypeIndex.isDocType(docId,'wiki_stuff'):
+        if self.doctypeIndex.isDocType(docId, 'wiki_stuff'):
             return
         # уже сохраненные не обрабатываем
         if self.isDocAlreadySave(docId):
@@ -293,66 +316,72 @@ class HeadersDBBuilder (WikiIterator):
         # получаем текст статьи
         text = self.wikiIndex.getTextArticleById(docId)
         # получаем из текста заголовки в виде структурок
-        headers = self.headersExtractor.getHeadersForDoc(docId,text)
-        
-        # формируем запрос    
+        headers = self.headersExtractor.getHeadersForDoc(docId, text)
+
+        # формируем запрос
         query = []
-        params = []            
-        for header_id in range(0,len(headers)-1):
+        params = []
+        for header_id in range(0, len(headers) - 1):
             query.append(self.queryElement)
             params.append(docId)
             params.append(headers[header_id]["header"])
             params.append(headers[header_id]["position_start"])
-            if header_id != len(headers)-1:
-                params.append(headers[header_id+1]["position_match"])
+            if header_id != len(headers) - 1:
+                params.append(headers[header_id + 1]["position_match"])
             else:
                 params.append(len(text))
             params.append(headers[header_id]["type"])
-        # Выполняем запрос    
-        if len(query)>0 :
-            self.dbCursor.execute(self.insertHeaderToDocQuery+",".join(query),params)
+        # Выполняем запрос
+        if len(query) > 0:
+            self.dbCursor.execute(self.insertHeaderToDocQuery + ",".join(query), params)
             self.dbConnection.commit()
-        #else:
+            # else:
             # print (docId)
 
+
 class HeadersDBIndex:
-    def __init__(self,accessor):
-        self.dbConnection = pymysql.connect(host='localhost', port=3306, user='root', passwd='',charset='utf8', db='wikiparse')
-        self.dbCursor = self.dbConnection.cursor()         
+    def __init__(self, accessor):
+        self.dbConnection = pymysql.connect(host='localhost', port=3306, user='root', passwd='', charset='utf8',
+                                            db='wikiparse')
+        self.dbCursor = self.dbConnection.cursor()
         self.getAllStatQuery = '''
-            SELECT headers.id as id, headers.text as text, count(`header_to_doc`.id) as cnt 
-            FROM `header_to_doc`, headers 
-            WHERE `header_to_doc`.header_id = headers.id 
-            GROUP BY headers.id 
+            SELECT headers.id as id, headers.text as text, count(`header_to_doc`.id) as cnt
+            FROM `header_to_doc`, headers
+            WHERE `header_to_doc`.header_id = headers.id
+            GROUP BY headers.id
             ORDER BY cnt desc
             '''
         self.countHeadersForDocQuery = '''
-            SELECT `header_to_doc`.doc_id, count(`header_to_doc`.id) as cnt 
-            FROM `header_to_doc` 
-            GROUP BY `header_to_doc`.doc_id 
+            SELECT `header_to_doc`.doc_id, count(`header_to_doc`.id) as cnt
+            FROM `header_to_doc`
+            GROUP BY `header_to_doc`.doc_id
             ORDER BY cnt desc
             LIMIT 200
             '''
+
     def getCountHeadersForDoc(self, docIds):
-        #.format(','.join(str(x) for x in docIds)
+        # .format(','.join(str(x) for x in docIds)
         self.dbCursor.execute(self.countHeadersForDocQuery)
         res = []
         for element in self.dbCursor.fetchall():
-            res.append ({'id': element[0],'cnt': element[1]})
-        return res                
+            res.append({'id': element[0], 'cnt': element[1]})
+        return res
+
     def getAllStat(self, docIds):
         self.dbCursor.execute(self.getAllStatQuery)
         res = []
         for element in self.dbCursor.fetchall():
-            res.append ({'id': element[0],'text': element[1],'cnt': element[2]})
-        return res    
-  
-if __name__ == "__main__":      
-#regex1 = re.compile('\n[ \t]*==([^=]*)==[ \t\r]*\n')
-#text = " kdkd\n == kdkd==\n"
-#match = regex1.search(text)
-#print(match.end())
+            res.append({'id': element[0], 'text': element[1], 'cnt': element[2]})
+        return res
+
+
+if __name__ == "__main__":
+    # regex1 = re.compile('\n[ \t]*==([^=]*)==[ \t\r]*\n')
+    # text = " kdkd\n == kdkd==\n"
+    # match = regex1.search(text)
+    # print(match.end())
     from pywikiaccessor.title_index import TitleIndex
+
     directory = "C:\\WORK\\science\\onpositive_data\\python\\"
     accessor = WikiAccessor(directory)
     docTypesIndex = DocumentTypeIndex(accessor)
@@ -362,15 +391,14 @@ if __name__ == "__main__":
         print(titleIndex.getTitleById(docId))
     doc_id = titleIndex.getIdByTitle("ALCAM")
     print(docTypesIndex.getDocTypeById(doc_id))
-#hb = HeadersDBBuilder(accessor,list(docIds))
-#hb.build()
-#hb.preProcess()
-#hb.processDocument(doc_id)
-#hi = HeadersDBIndex(accessor)
-#hi.getCountHeadersForDoc(docIds)
-#stat = hi.getAllStat(docIds)
-#for s in stat:
+# hb = HeadersDBBuilder(accessor,list(docIds))
+# hb.build()
+# hb.preProcess()
+# hb.processDocument(doc_id)
+# hi = HeadersDBIndex(accessor)
+# hi.getCountHeadersForDoc(docIds)
+# stat = hi.getAllStat(docIds)
+# for s in stat:
 #    print (s['text']+": "+str(s['cnt']))
-   
-  
- 
+
+

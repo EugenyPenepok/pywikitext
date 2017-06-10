@@ -12,7 +12,7 @@ hid = HeadersFileIndex(accessor)
 class HeadersExtractor:
     def getCategoryHeaders(self, categoryId):
         categoryPages = bld.getDirectPages(categoryId)
-        headersSet = set()  # множество с заголовками статей категории
+        headersSet = set()  # множество с id заголовков статей категории
         for page in categoryPages:
             for h in hid.headersByDoc(page):
                 headersSet.add(h['header'])
@@ -24,4 +24,18 @@ class HeadersExtractor:
         allheaders = set()
         for category in categories:
             allheaders.update(self.getCategoryHeaders(category))
-        return allheaders
+        headersArray = []
+        for h in allheaders:
+            headersDict = {}
+            headersDict['id'] = h
+            headersDict['text'] = hid.headerText(h)
+            headersArray.append(headersDict)
+        return headersArray
+
+# category = 'Барнаул'
+# categoryId = titleIndex.getTitleById(category)
+# test = HeadersExtractor()
+#
+# for header in test.getCategoryHeaders(categoryId):
+#     if header['id'] == 144:  # история (присутствует в заголовках)
+#         print(hid.getDocSection(articleId, header['id']))

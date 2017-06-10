@@ -8,58 +8,7 @@
       </div>
 	
 	<!-- Панель  -->
-<div class="form-group row">
-    <button name="getCategories" class="btn btn-success" id="btn-get-categories">Получить категории</button>
-</div>
 
-<div class="row">
-        <hr>
-        <h2>Дерево категорий</h2>
-        <div class="col-sm-4">
-          <h2>Категории</h2>
-          <div class="form-group">
-            <label for="input-check-node" class="sr-only">Найти в дереве:</label>
-            <input type="input" class="form-control" id="input-check-node" placeholder="Введите имя категории ..." value="">
-          </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" class="checkbox" id="chk-check-silent" value="false">
-              Не отображать события
-            </label>
-          </div>
-          <div class="form-group row">
-            <div class="col-sm-6">
-              <button type="button" class="btn btn-success check-node" id="btn-check-node">Выделить</button>
-            </div>
-          </div>
-          <div class="form-group">
-            <button type="button" class="btn btn-danger check-node" id="btn-uncheck-node">Снять отметку</button>
-          </div>
-          <div class="form-group">
-            <button type="button" class="btn btn-primary check-node" id="btn-toggle-checked">Переключить</button>
-          </div>
-          <hr>
-          <div class="form-group row">
-            <div class="col-sm-6">
-              <button type="button" class="btn btn-success" id="btn-check-all">Выделить все</button>
-            </div>
-          </div>
-          <button type="button" class="btn btn-danger" id="btn-uncheck-all">Отменить выделение</button>
-        </div>
-        <div class="col-sm-4">
-          <h2>Дерево</h2>
-          <div id="treeview1" class=""></div>
-        </div>
-        <div class="col-sm-4">
-          <h2>События</h2>
-          <div id="checkable-output"></div>
-        </div>
-
-</div>
-
-<div class="form-group row">
-    <button name="acceptCategories" class="btn btn-success" id="btn-accept">Принять</button>
-</div>
 
 	<div class="panel panel-default">
 		<div class="panel-heading">
@@ -67,169 +16,84 @@
 		</div>
 		
 		<div class="panel-body">
-			<!-- Алерты панели -->
-			<div class="alert alert-success" role="alert">
-				  <strong>Успех!</strong> Файл DocumentTypeConfig создан.
-			</div>
-		
-			<!-- Категории -->
-			<div class="container-fluid">
-				<div class="page-header">
-					<h3>Выбор категорий</h3>
-				</div>
-				
-						
-				<!-- Ошибки и предупреждения -->
-				<div class="alert alert-warning" role="alert">
-					<strong>Предупреждение!</strong> Не выбрана ни одна категория.
-				</div>
-				<div class="alert alert-danger" role="alert">
-					<strong>Ошибка!</strong> Текст ошибки.
-				</div>
-			
-				<div class="col-md-6">
-					<div class="checkbox">
-						<label><input type="checkbox" value="">Категория 1</label>
-					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" value="">Категория 2</label>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="checkbox">
-						<label><input type="checkbox" value="">Категория 3</label>
-					</div>
-					<div class="checkbox">
-						<label><input type="checkbox" value="">Категория 4</label>
-					</div>
-				</div>
-			</div>
-		
-			<!-- Статьи -->
-			<div class="container-fluid">
-				<div class="page-header">
-					<h3>Выбор статей</h3>
-				</div>
-					
-				<!-- Ошибки и предупреждения -->
-				<div class="alert alert-warning" role="alert">
-					<strong>Предупреждение!</strong> Не выбрана ни одна категория.
-				</div>
-				<div class="alert alert-danger" role="alert">
-					<strong>Ошибка!</strong> Текст ошибки.
-				</div>
-				
-				<label for="doc-title">Название содержит:</label>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<input type="text" class="form-control" id="doc-title">
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Шаблоны -->
-			<div class="container-fluid">
-				<div class="page-header">
-					<h3>Выбор шаблонов</h3>
-				</div>
-					
-				<!-- Ошибки и предупреждения -->
-				<div class="alert alert-warning" role="alert">
-					<strong>Предупреждение!</strong> Не указан ни один шаблон.
-				</div>
-				<div class="alert alert-danger" role="alert">
-					<strong>Ошибка!</strong> Текст ошибки.
-				</div>
-				
-				<button type="button" class="btn btn-success">Добавить</button><br><br>
-				
-				<label for="tmp1">Шаблон 1:</label>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<input type="text" class="form-control" id="tmp1">
-						</div>
-					</div>
-					<div class="col-md-2">
-						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
-					</div>
-				</div>
-				
-				<label for="tmp2">Шаблон 2:</label>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<input type="text" class="form-control" id="tmp2">
-						</div>
-					</div>
-					<div class="col-md-2">
-						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Заголовки -->
-			<div class="container-fluid">
-				<div class="page-header">
-					<h3>Выбор заголовков статей</h3>
-				</div>
-				
-						
-				<!-- Ошибки и предупреждения -->
-				<div class="alert alert-warning" role="alert">
-					<strong>Предупреждение!</strong> Не указан ни один заголовок.
-				</div>
-				<div class="alert alert-danger" role="alert">
-					<strong>Ошибка!</strong> Текст ошибки.
-				</div>				
-				<button type="button" class="btn btn-success">Добавить</button><br><br>
-				
-				<label for="sub1">Заголовок 1:</label>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<input type="text" class="form-control" id="sub1">
-						</div>
-					</div>
-					<div class="col-md-2">
-						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
-					</div>
-				</div>
-				
-				<label for="sub2">Заголовок 2:</label>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<input type="text" class="form-control" id="sub2">
-						</div>
-					</div>
-					<div class="col-md-2">
-						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
-					</div>
-				</div>
-				
-				<label for="sub3">Заголовок 3:</label>
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group">
-							<input type="text" class="form-control" id="sub3">
-						</div>
-					</div>
-					<div class="col-md-2">
-						<button type="button" class="btn btn-sm btn-danger">Удалить</button>
-					</div>
-				</div>
-			</div>
-			
-			<!-- Кнопки -->
-			<div class="container-fluid">
-				<div class="row pull-right">
-					<button type="button" class="btn btn-lg btn-default">Очистить</button>
-					<button type="button" class="btn btn-lg btn-primary">Принять</button>
-				</div>
-			</div>
+            <div class="container-fluid">
+                <div class="row">
+                    <button name="getCategories" class="btn btn-success" id="btn-get-categories">Получить категории</button>
+                </div>
+            </div>
+            <hr>
+            <div class="container-fluid">
+                <div class = "row">
+                <h2>Дерево категорий</h2>
+                <div class="col-sm-4">
+                  <h2>Категории</h2>
+                  <div class="form-group">
+                    <label for="input-check-node" class="sr-only">Найти в дереве:</label>
+                    <input type="input" class="form-control" id="input-check-node" placeholder="Введите имя категории ..." value="" data-toggle="collapse">
+                  </div>
+
+                    <div class="panel panel-default">
+                         <a data-toggle="collapse" data-parent="#collapse-group" href="#el3"><div class="panel-heading">
+                             <h4 class="panel-title">
+                             Параметры
+                             </h4>
+                         </div></a>
+                         <div id="el3" class="panel-collapse collapse">
+                             <div class="panel-body">
+                                <div class="checkbox">
+                                    <label>
+                                      <input type="checkbox" class="checkbox" id="chk-check-silent" value="false">
+                                      Не отображать события
+                                    </label>
+                                </div>
+                              <div class="form-group">
+                                  <button type="button" class="btn btn-success check-node" id="btn-check-node">Выделить</button>
+                              </div>
+                              <div class="form-group">
+                                <button type="button" class="btn btn-danger check-node" id="btn-uncheck-node">Снять отметку</button>
+                              </div>
+                              <div class="form-group">
+                                <button type="button" class="btn btn-primary check-node" id="btn-toggle-checked">Переключить</button>
+                              </div>
+                             </div>
+                         </div>
+                     </div>
+                  <hr>
+                  <div class="form-group row">
+                    <div class="col-sm-6">
+                      <button type="button" class="btn btn-success" id="btn-check-all">Выделить все</button>
+                    </div>
+                  </div>
+                  <button type="button" class="btn btn-danger" id="btn-uncheck-all">Отменить выделение</button>
+                </div>
+                <div class="col-sm-4">
+                  <h2>Дерево</h2>
+                  <div id="treeview1" class=""></div>
+                </div>
+                <div class="col-sm-4">
+                  <h2>События</h2>
+                  <div id="checkable-output"></div>
+                </div>
+                <hr>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="container-fluid">
+                <div class = "row text-center">
+                    <button name="acceptCategories" class="btn-lg btn-success" id="btn-accept">Подтвердить</button>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="container-fluid">
+                <div class = "row">
+                    <select class="test-select" style="width: 75%"></select>
+                </div>
+            </div>
+
 		</div>	<!-- end of panel body -->
 	</div> <!-- end of panel -->
 </div>

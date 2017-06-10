@@ -4,7 +4,10 @@ from django.shortcuts import render, redirect
 from experiments.categoriesTree import CateforiesTree
 from experiments.HeadersExtractor import HeadersExtractor
 import json
+import re
 
+choosenCats = []
+headersForCats = []
 # Исправить
 directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
 
@@ -23,7 +26,23 @@ def get_categories(request):
 
 def post_tree_categories(request):
     if request.method == 'POST':
-        cats = json.loads(request.POST['categories'])
+        global choosenCats
+        global headersForCats
+        # Получение отмеченных категорий
+        choosenCats = json.loads(request.POST['categories'])
+        # Сохранение всех заголовков для категорий
         he = HeadersExtractor();
-        print(he.getHeadersForTree(cats))
+        headersForCats = he.getHeadersForTree(choosenCats)
         return redirect('index')
+
+def get_headers(request):
+    if request.method == 'GET' :
+        if 'q' in request.GET:
+            pattern = request.GET['q'].lower()
+            result = []
+            for header in headersForCats:
+                if re.search(pattern, header['text']):
+                    result.append(header)
+            return JsonResponse(result, safe=False)
+        else:
+            return JsonResponse(headersForCats, safe=False)
