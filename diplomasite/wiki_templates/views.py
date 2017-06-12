@@ -13,10 +13,7 @@ directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
 
 def index(request):
     if request.method == 'GET':
-        catTree = CateforiesTree()
-        json_data = catTree.tree_maker_from_doctype(directory)
-        context = {'json_data': json_data}
-        return render(request, 'index.html', context)
+        return render(request, 'index.html')
 
 def get_categories(request):
     if request.method == 'GET':

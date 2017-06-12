@@ -26,7 +26,7 @@
                 <div class = "row">
                 <h2>Дерево категорий</h2>
                 <div class="col-sm-4">
-                  <h2>Категории</h2>
+                  <h3>Поиск</h3>
                   <div class="form-group">
                     <label for="input-check-node" class="sr-only">Найти в дереве:</label>
                     <input type="input" class="form-control" id="input-check-node" placeholder="Введите имя категории ..." value="" data-toggle="collapse">
@@ -67,11 +67,11 @@
                   <button type="button" class="btn btn-danger" id="btn-uncheck-all">Отменить выделение</button>
                 </div>
                 <div class="col-sm-4">
-                  <h2>Дерево</h2>
+                  <h3>Дерево</h3>
                   <div id="treeview1" class=""></div>
                 </div>
                 <div class="col-sm-4">
-                  <h2>События</h2>
+                  <h3>События</h3>
                   <div id="checkable-output"></div>
                 </div>
                 <hr>
@@ -82,7 +82,7 @@
 
             <div class="container-fluid">
                 <div class = "row text-center">
-                    <button name="acceptCategories" class="btn-lg btn-success" id="btn-accept">Подтвердить</button>
+                    <button name="acceptCategories" class="btn btn-success" id="btn-accept">Извлечь заголовки</button>
                 </div>
             </div>
 
@@ -90,7 +90,13 @@
 
             <div class="container-fluid">
                 <div class = "row">
+                    <h2>Выбор заголовков</h2>
                     <select class="test-select" style="width: 75%"></select>
+                </div>
+                <div class = "row text-center">
+                    <br>
+                    <button name="acceptHeaders" class="btn btn-success" id="btn-accept">Подтвердить</button>
+                    <br>
                 </div>
             </div>
 
