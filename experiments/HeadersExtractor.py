@@ -19,7 +19,6 @@ class HeadersExtractor:
         return headersSet
         # for header in headersSet:
         #     print(hid.headerText(header))
-
     def getHeadersForTree(self, categories):
         allheaders = set()
         for category in categories:
@@ -32,10 +31,52 @@ class HeadersExtractor:
             headersArray.append(headersDict)
         return headersArray
 
-# category = 'Барнаул'
-# categoryId = titleIndex.getTitleById(category)
+    def getCategoryHeaders_better(self, categoryId):
+        categoryPages = bld.getDirectPages(categoryId)
+        headersDict = {}
+        for page in categoryPages:
+            for h in hid.headersByDoc(page):
+                if headersDict.get(h['header'], False):
+                    headersDict[h['header']].append(page)
+                else:
+                    headersDict[h['header']] = []
+                    headersDict[h['header']].append(page)
+        return headersDict
+
+    def getHeadersForTree_better(self, categories):
+        headersDict = {}
+        for category in categories:
+            categoryPages = bld.getDirectPages(category)
+            for page in categoryPages:
+                for h in hid.headersByDoc(page):
+                    if headersDict.get(h['header'], False):
+                        headersDict[h['header']].append(page)
+                    else:
+                        headersDict[h['header']] = []
+                        headersDict[h['header']].append(page)
+        headersArray = []
+        for key, val in headersDict.items():
+            headersDict = {}
+            headersDict['id'] = key
+            headersDict['text'] = hid.headerText(key)
+            headersDict['amount'] = len(val)
+            headersDict['docs'] = val
+            headersArray.append(headersDict)
+        return headersArray
+
+
+
+# category1 = 'Деление'
+# category2 = 'Спорт в Вильнюсе'
+# category1Id = bld.getIdByTitle(category1)
+# category2Id = bld.getIdByTitle(category2)
+# categories = {category1Id, category2Id}
 # test = HeadersExtractor()
 #
-# for header in test.getCategoryHeaders(categoryId):
-#     if header['id'] == 144:  # история (присутствует в заголовках)
-#         print(hid.getDocSection(articleId, header['id']))
+# old_stuff = test.getHeadersForTree(categories)
+# print(len(old_stuff))
+# print(old_stuff)
+# print('-----------')
+# new_stuff = test.getHeadersForTree_better(categories)
+# print(len(new_stuff))
+# print(new_stuff)

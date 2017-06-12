@@ -5,6 +5,7 @@ import json
 
 directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
 accessor = wiki_accessor.WikiAccessor(directory)
+
 bld = wiki_categories.CategoryIndex(accessor)
 
 class CateforiesTree:

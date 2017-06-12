@@ -6,7 +6,6 @@ from experiments.HeadersExtractor import HeadersExtractor
 import json
 import re
 
-choosenCats = []
 headersForCats = []
 # Исправить
 directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
@@ -23,13 +22,18 @@ def get_categories(request):
 
 def post_tree_categories(request):
     if request.method == 'POST':
-        global choosenCats
         global headersForCats
         # Получение отмеченных категорий
         choosenCats = json.loads(request.POST['categories'])
         # Сохранение всех заголовков для категорий
         he = HeadersExtractor();
-        headersForCats = he.getHeadersForTree(choosenCats)
+        headersForCats = he.getHeadersForTree_better(choosenCats)
+        return redirect('index')
+
+def post_selected_headers(request):
+    if request.method == 'POST':
+        choosenHeaders = json.loads(request.POST['headers'])
+        print(choosenHeaders)
         return redirect('index')
 
 def get_headers(request):
