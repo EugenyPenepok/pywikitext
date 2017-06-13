@@ -12,6 +12,7 @@ from collections import Counter
 from math import log
 
 class TemplateBuilder(WikiIterator):
+
     def preProcess(self):
         pass
 

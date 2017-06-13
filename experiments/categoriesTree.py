@@ -2,11 +2,18 @@ from pywikiaccessor import wiki_accessor
 from pywikiaccessor import wiki_categories
 import json
 
+
 class CateforiesTree:
     directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
     accessor = wiki_accessor.WikiAccessor(directory)
     bld = wiki_categories.CategoryIndex(accessor)
+
     def tree_maker(self, parentNodeId):
+        self.watchedCats = set()
+        return self.__tree_maker(parentNodeId)
+
+    def __tree_maker(self, parentNodeId):
+        self.watchedCats.add(parentNodeId)
         newNode = {}
         nodeText = self.bld.getTitleById(parentNodeId)
         # nodeHref = '#' + translit(nodeText, 'ru', reversed=True)
@@ -22,8 +29,8 @@ class CateforiesTree:
         if len(subCats):
             newNode['nodes'] = nodes
             for cat in subCats:
-                if cat != parentNodeId:  # Enjoy Movies
-                    childNode = self.tree_maker(cat)
+                if (not cat in self.watchedCats) and (cat != parentNodeId):  # Enjoy Movies
+                    childNode = self.__tree_maker(cat)
                     newNode['nodes'].append(childNode)
         return newNode
 
@@ -41,7 +48,7 @@ class CateforiesTree:
         return listOfCategories
 
 
-# test = CateforiesTree()
-# print(test.tree_maker(bld.getIdByTitle('Фильмы')))
-# #print(test.tree_maker_from_doctype(directory))
-# print("--end--")
+        # test = CateforiesTree()
+        # print(test.tree_maker(bld.getIdByTitle('Фильмы')))
+        # #print(test.tree_maker_from_doctype(directory))
+        # print("--end--")

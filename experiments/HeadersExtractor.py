@@ -2,8 +2,6 @@ from pywikiaccessor import wiki_accessor
 from pywikiaccessor.wiki_categories import CategoryIndex
 from pywikiutils.wiki_headers import HeadersFileIndex
 
-
-
 class HeadersExtractor:
     directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
     accessor = wiki_accessor.WikiAccessor(directory)
