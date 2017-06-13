@@ -1,17 +1,14 @@
-from transliterate import translit
 from pywikiaccessor import wiki_accessor
 from pywikiaccessor import wiki_categories
 import json
 
-directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
-accessor = wiki_accessor.WikiAccessor(directory)
-
-bld = wiki_categories.CategoryIndex(accessor)
-
 class CateforiesTree:
+    directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
+    accessor = wiki_accessor.WikiAccessor(directory)
+    bld = wiki_categories.CategoryIndex(accessor)
     def tree_maker(self, parentNodeId):
         newNode = {}
-        nodeText = bld.getTitleById(parentNodeId)
+        nodeText = self.bld.getTitleById(parentNodeId)
         # nodeHref = '#' + translit(nodeText, 'ru', reversed=True)
         # for ch in ['\\', '`', '*', '>', '#', '+', '-', '.', '!', '$', '\'', ' ', '«', '»']:
         #     nodeHref = nodeHref.replace(ch, '')
@@ -21,7 +18,7 @@ class CateforiesTree:
         newNode['text'] = nodeText
         newNode['href'] = nodeHref
         newNode['tags'] = tags
-        subCats = bld.getSubCatAsSet(parentNodeId)
+        subCats = self.bld.getSubCatAsSet(parentNodeId)
         if len(subCats):
             newNode['nodes'] = nodes
             for cat in subCats:
@@ -37,7 +34,7 @@ class CateforiesTree:
             for doctype in doctypes:
                 if (doctype.get('categories', None)):
                     for category in doctype['categories']:
-                        catId = bld.getIdByTitle(category)
+                        catId = self.bld.getIdByTitle(category)
                         listOfCategories.append(self.tree_maker(catId))
         # with open('tree.json', 'w', encoding='utf8') as outfile:
         # return json.dumps(listOfCategories, ensure_ascii=False)

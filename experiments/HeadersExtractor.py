@@ -1,20 +1,20 @@
 from pywikiaccessor import wiki_accessor
 from pywikiaccessor.wiki_categories import CategoryIndex
-from pywikiaccessor.title_index import TitleIndex
 from pywikiutils.wiki_headers import HeadersFileIndex
 
-directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
-accessor = wiki_accessor.WikiAccessor(directory)
-titleIndex = TitleIndex(accessor)
-bld = CategoryIndex(accessor)
-hid = HeadersFileIndex(accessor)
+
 
 class HeadersExtractor:
+    directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
+    accessor = wiki_accessor.WikiAccessor(directory)
+    bld = CategoryIndex(accessor)
+    hid = HeadersFileIndex(accessor)
+
     def getCategoryHeaders(self, categoryId):
-        categoryPages = bld.getDirectPages(categoryId)
+        categoryPages = self.bld.getDirectPages(categoryId)
         headersSet = set()  # множество с id заголовков статей категории
         for page in categoryPages:
-            for h in hid.headersByDoc(page):
+            for h in self.hid.headersByDoc(page):
                 headersSet.add(h['header'])
         return headersSet
         # for header in headersSet:
@@ -27,15 +27,15 @@ class HeadersExtractor:
         for h in allheaders:
             headersDict = {}
             headersDict['id'] = h
-            headersDict['text'] = hid.headerText(h)
+            headersDict['text'] = self.hid.headerText(h)
             headersArray.append(headersDict)
         return headersArray
 
     def getCategoryHeaders_better(self, categoryId):
-        categoryPages = bld.getDirectPages(categoryId)
+        categoryPages = self.bld.getDirectPages(categoryId)
         headersDict = {}
         for page in categoryPages:
-            for h in hid.headersByDoc(page):
+            for h in self.hid.headersByDoc(page):
                 if headersDict.get(h['header'], False):
                     headersDict[h['header']].append(page)
                 else:
@@ -46,9 +46,9 @@ class HeadersExtractor:
     def getHeadersForTree_better(self, categories):
         headersDict = {}
         for category in categories:
-            categoryPages = bld.getDirectPages(category)
+            categoryPages = self.bld.getDirectPages(category)
             for page in categoryPages:
-                for h in hid.headersByDoc(page):
+                for h in self.hid.headersByDoc(page):
                     if headersDict.get(h['header'], False):
                         headersDict[h['header']].append(page)
                     else:
@@ -58,14 +58,14 @@ class HeadersExtractor:
         for key, val in headersDict.items():
             headersDict = {}
             headersDict['id'] = key
-            headersDict['text'] = hid.headerText(key)
+            headersDict['text'] = self.hid.headerText(key)
             headersDict['amount'] = len(val)
             headersDict['docs'] = val
             headersArray.append(headersDict)
         return headersArray
-
-
-
+#
+#
+#
 # category1 = 'Деление'
 # category2 = 'Спорт в Вильнюсе'
 # category1Id = bld.getIdByTitle(category1)
