@@ -3,9 +3,14 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from experiments.categoriesTree import CateforiesTree
 from experiments.HeadersExtractor import HeadersExtractor
+from experiments.SelectedModel import UserModel
+from pywikiaccessor import wiki_accessor
+from experiments.science_patterns import POSListBuilder, СollocationBuilder
+
 import json
 import re
 
+choosenCats = []
 headersForCats = []
 # Исправить
 directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
@@ -22,6 +27,7 @@ def get_categories(request):
 
 def post_tree_categories(request):
     if request.method == 'POST':
+        global choosenCats
         global headersForCats
         # Получение отмеченных категорий
         choosenCats = json.loads(request.POST['categories'])
@@ -33,7 +39,8 @@ def post_tree_categories(request):
 def post_selected_headers(request):
     if request.method == 'POST':
         choosenHeaders = json.loads(request.POST['headers'])
-        print(choosenHeaders)
+        # um = UserModel("test","qwe", choosenCats, choosenHeaders)
+        # print(um.config_maker())
         return redirect('index')
 
 def get_headers(request):

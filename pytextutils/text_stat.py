@@ -277,7 +277,7 @@ def normalize(data):
             normData.append((d)/(max_value))
     return normData
 
-directory = "C:/WORK/science/onpositive_data/python/"
+directory = "C:\\[Study]\\Diploma\\wiki_indexes\\"
 tc = TextCleaner(directory)
 tc1 = TextCleaner(directory)
 print(tc1)
