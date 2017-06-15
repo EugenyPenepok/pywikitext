@@ -26,10 +26,15 @@ class UserModel:
         # with open('tree.json', 'w', encoding='utf8') as outfile:
         # return json.dumps(listOfCategories, ensure_ascii=False)
 
+import pickle
+
 if __name__ =="__main__":
     accessor = wiki_accessor.WikiAccessor("C:\\[Study]\\Diploma\\wiki_indexes\\")
     my_config = {"slug": ["4", "1252"]}
     um = UserModel("test", "qwe", {}, my_config)
+
+    # with open("C:\\[Study]\\Diploma\\wiki_indexes\\DocumentHeaders.pcl" , 'rb') as f:
+    #     temp = pickle.load(f)
 
     sb = POSListBuilder(accessor, "slug", my_config)
     sb.build()

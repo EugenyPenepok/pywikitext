@@ -134,7 +134,7 @@ from pywikiaccessor.wiki_base_index import WikiBaseIndex
 # Файловый индекс заголовков
 class HeadersFileIndex(WikiFileIndex):
     def __init__(self, wikiAccessor, prefix=''):
-        super(HeadersFileIndex, self).__init__(wikiAccessor, prefix)
+        super(HeadersFileIndex, self).__init__(wikiAccessor, 'miph_')
         self.wikiIndex = wikiAccessor.getIndex(WikiBaseIndex)
         self.wikiTokenizer = WikiTokenizer()
 
